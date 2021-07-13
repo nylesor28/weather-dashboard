@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Weather Dashboard</h1>
+    </header>
+
+    <main class="container">
+
+        <section class="search-section>
+            <form id=" search-form">
+            <div class="search-area">
+                <label for="city-input">Search for a City:</label>
+                <br />
+                <input type="text" id="city-input" />
+                <br />
+                <button class="btn-search"> Search</button>
+            </div>
+            <hr>
+            <div class="search-history-container">
+                <button>City 1</button>
+            </div>
+            </form>
+        </section>
+
+        <section class="forecast-section">
+            <div class="today-forecast">
+                <h2>
+                    <span class="searched-city">City</span>
+                    <span class="today-date">(Today)</span>
+                    <span class="weather-icon"></span>
+                </h2>
+                <p>Temp: <span class="temp"></span></p>
+                <p>Wind: <span class="wind"></span></p>
+                <p>Humidity: <span class="humidity"></span></p>
+                <p>UV Index: <span class="uv-index"></span></p>
+            </div>
+            <div class="five-day-forecast">
+                <h3>5-Day Forecast:</h3>
+                <div class="five-day-container">
+                    
+                    <div class="five-day">
+                        <p class="forecast-date">mm/dd/yyyy</p>
+                        <p class="forecast-icon"></p>
+                        <p>Temp: <span class="forecast-temp"></span></p>
+                        <p>Wind: <span class="forecast-wind"></span></p>
+                        <p>Humidity: <span class="forecast-humidity"></span></p>
+                    </div>
+                    <div class="five-day">
+                        <p class="forecast-date">mm/dd/yyyy</p>
+                        <p class="forecast-icon"></p>
+                        <p>Temp: <span class="forecast-temp"></span></p>
+                        <p>Wind: <span class="forecast-wind"></span></p>
+                        <p>Humidity: <span class="forecast-humidity"></span></p>
+                    </div>
+                    <div class="five-day">
+                        <p class="forecast-date">mm/dd/yyyy</p>
+                        <p class="forecast-icon"></p>
+                        <p>Temp: <span class="forecast-temp"></span></p>
+                        <p>Wind: <span class="forecast-wind"></span></p>
+                        <p>Humidity: <span class="forecast-humidity"></span></p>
+                    </div>
+                    <div class="five-day">
+                        <p class="forecast-date">mm/dd/yyyy</p>
+                        <p class="forecast-icon"></p>
+                        <p>Temp: <span class="forecast-temp"></span></p>
+                        <p>Wind: <span class="forecast-wind"></span></p>
+                        <p>Humidity: <span class="forecast-humidity"></span></p>
+                    </div>
+                    <div class="five-day">
+                        <p class="forecast-date">mm/dd/yyyy</p>
+                        <p class="forecast-icon"></p>
+                        <p>Temp: <span class="forecast-temp"></span></p>
+                        <p>Wind: <span class="forecast-wind"></span></p>
+                        <p>Humidity: <span class="forecast-humidity"></span></p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+
+</html>
