@@ -13,22 +13,28 @@ header{
     width: 30%;
 }
 
+.city-input{
+    width: 68.5%;
+}
+
 .btn-search{
     background-color:rgb(0,212,255) ;
     color:white;
     margin: 1% 0%;
-    width: 100%;
+    width: 68.5%;
 
 }
 
 .search-history-container{
     display: flex;
     flex-direction: column;
+    border-top: 1px solid gainsboro;
 }
 
 
 .search-history-container button{
     background-color: grey;
+    width: 68.5%;
 }
 
 .forecast-section{
