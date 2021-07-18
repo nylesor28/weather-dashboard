@@ -12,7 +12,7 @@ var weatherIconEl = document.querySelector(".weather-icon");
 var tempEl = document.querySelector(".temp");
 var windEl = document.querySelector(".wind");
 var humidityEl = document.querySelector(".humidity");
-var uvIndexEl = document.querySelector(".uv-index");
+var uvIndexEl = document.querySelector("#uv-index");
 
 var fiveDayForecastEl = document.querySelector(".five-day-forecast");
 var fiveDayContainerEl = document.querySelector(".five-day-container");
@@ -35,6 +35,7 @@ var resetElements = function () {
   windEl.textContent = "";
   humidityEl.textContent = "";
   fiveDayContainerEl.textContent = "";
+  uvIndexEl.setAttribute("class", " ")
 
   toggleForecastSection(false);
 };
@@ -122,24 +123,25 @@ var getWeather = async function (city) {
   );
   console.log(allForecastData, allForecastData.lat);
 
-  var uvi = Math.floor(
-    parseFloat(
+  var uvi = 
       (await fetchAllForecast(currentData.coord.lat, currentData.coord.lon))
         .current.uvi
-    )
-  );
+    
+
   uvIndexEl.textContent = uvi;
 
-  if (uvi >= 0 && uvi <= 2) {
-    uvIndexEl.classList.add("low");
-  } else if (uvi >= 3 && uvi <= 5) {
-    uvIndexEl.classList.add("moderate");
-  } else if (uvi >= 6 && uvi <= 7) {
+  var uviRounded = Math.floor(uvi)
+
+  if (uviRounded >= 0 && uviRounded <= 2) {
+    uvIndexEl.setAttribute("class", "low")
+  } else if (uviRounded >= 3 && uviRounded <= 5) {
+    uvIndexEl.setAttribute("class", "moderate")
+  } else if (uviRounded >= 6 && uviRounded <= 7) {
     uvIndexEl.classList.add("high");
-  } else if (uvi >= 8 && uvi <= 10) {
-    uvIndexEl.classList.add("severe");
-  } else if (uvi >= 11) {
-    uvIndexEl.classList.add("extreme");
+  } else if (uviRounded >= 8 && uviRounded <= 10) {
+    uvIndexEl.setAttribute("class", "severe")
+  } else if (uviRounded >= 11) {
+    uvIndexEl.setAttribute("class", "extreme")
   }
 
   fiveDayContainerEl.textContent = "";
