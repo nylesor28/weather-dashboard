@@ -1,85 +1,78 @@
-header{
-    background: linear-gradient(90deg, rgba(0,212,255,1) 0%, rgba(9,9,121,1) 75%,rgba(2,0,36,1)  100%);
-    color: white;
-    font-weight: bold;
-    text-align: center;
+header {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 212, 255, 1) 0%,
+    rgba(9, 9, 121, 1) 75%,
+    rgba(2, 0, 36, 1) 100%
+  );
+  color: white;
+  font-weight: bold;
+  text-align: center;
 }
 
-
-
- .btn-search, .btn-history{
-    /* background-color:rgb(0,212,255) ;
-    color:white; */
-    width:100%; 
-    margin-top:5%;
-  
-    
-
-} 
-
-.search-history-container{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
- 
-}
-hr{
-    text-align: left;
+.btn-search,
+.btn-history {
+  width: 100%;
+  margin-top: 5%;
 }
 
-.label{
-    font-weight: bold; 
+.search-history-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+hr {
+  text-align: left;
 }
 
-.label span{
-    font-weight:normal
+.label {
+  font-weight: bold;
 }
 
-.search-history-container button{
-    flex-wrap: wrap;
-
+.label span {
+  font-weight: normal;
 }
 
-
-.today-forecast{
-    border: 1px solid black;
-    padding: 0px;
-}
-.five-day-container{
-    display: flex;
-    justify-content:space-between;
-    flex-wrap: wrap;
-}
-.five-day{
-    background-color: rgb(2,0,36,0.80);
-    color: white;
-    margin-bottom:5%
-  
-
-
+.search-history-container button {
+  flex-wrap: wrap;
 }
 
-.uv-index{
-    padding: 1%;
-    border-radius: 15%;
+.today-forecast {
+  border: 1px solid black;
+  padding: 0px;
+}
+.five-day-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.five-day {
+  background-color: rgb(2, 0, 36, 0.8);
+  color: white;
+  margin-bottom: 5%;
 }
 
-.low{
-    background-color: lightgreen;
+.uv-index {
+  padding: 1%;
+  border-radius: 15%;
 }
 
-.moderate{
-    background-color: yellow;
+.low {
+  background-color: lightgreen;
 }
 
-.high{
-    background-color: orange;
+.moderate {
+  background-color: yellow;
 }
 
-.severe{
-    background-color: red;
+.high {
+  background-color: orange;
 }
 
-.extreme{
-    background-color: orchid;
+.severe {
+  background-color: red;
+}
+
+.extreme {
+  background-color: orchid;
 }
