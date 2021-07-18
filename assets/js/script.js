@@ -31,12 +31,13 @@ var formatDate = function (date) {
 var resetElements = function () {
   searchCityEl.textContent = "";
   todayDateEl.textContent = "";
+  weatherIconEl.textContent="";
   tempEl.textContent = "";
   windEl.textContent = "";
   humidityEl.textContent = "";
   fiveDayContainerEl.textContent = "";
+  uvIndexEl.textContent =""
   uvIndexEl.setAttribute("class", " ")
-
   toggleForecastSection(false);
 };
 
@@ -79,12 +80,13 @@ var loadHistory = function (key) {
     btn.textContent = city;
     searchHistoryContainerEl.appendChild(btn);
     btn.addEventListener("click", function () {
-      getWeather(this.textContent);
+        resetElements()
+        getWeather(this.textContent);
     });
   }
 };
 
-var fetchCityForecast = function (city) {
+var fetchCityForecast =  function (city) {
   var weatherAPIURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=imperial`;
   console.log(weatherAPIURL);
 
@@ -94,19 +96,25 @@ var fetchCityForecast = function (city) {
 };
 var getWeather = async function (city) {
   var searchedComplete = false;
+  resetElements();
   const iconURL = " http://openweathermap.org/img/w/";
 
   //get forecast for for searched city
-  var currentData = await fetchCityForecast(city);
+  var currentData = await (fetchCityForecast(city));
   console.log("currentData: ", currentData);
-
+    if(currentData.cod != "200"){
+         alert(currentData.message);
+         toggleForecastSection(searchedComplete);
+        return searchedComplete;
+     }
+     
   //display current weather information
   searchCityEl.textContent = currentData.name;
   var currentDate = `(${formatDate(new Date(currentData.dt * 1000))})`;
   todayDateEl.textContent = currentDate;
-  tempEl.textContent = currentData.main.temp;
-  windEl.textContent = currentData.wind.speed;
-  humidityEl.textContent = currentData.main.humidity;
+  tempEl.textContent = currentData.main.temp+ " "+	String.fromCharCode(176)+ "F";
+  windEl.textContent = currentData.wind.speed + " MPH";
+  humidityEl.textContent = currentData.main.humidity + "%";
 
   var iconImgUrl = `${iconURL}${currentData.weather[0].icon}.png`;
   console.log("imageIcon", iconImgUrl);
@@ -148,9 +156,9 @@ var getWeather = async function (city) {
   for (var i = 1; i < 6; i++) {
     var dailyInfo = allForecastData.daily[i];
     var daytime = `${formatDate(new Date(dailyInfo.dt * 1000))}`;
-    var dayTemp = dailyInfo.temp.day;
-    var dayWind = dailyInfo.wind_speed;
-    var dayHumidity = dailyInfo.humidity;
+    var dayTemp = dailyInfo.temp.day + " "+	String.fromCharCode(176)+ "F";
+    var dayWind = dailyInfo.wind_speed + " MPH" ;
+    var dayHumidity = dailyInfo.humidity + "%";
     var dayIconLocation = `${iconURL}${dailyInfo.weather[0].icon}.png`;
     var dayIconDescription = dailyInfo.weather[0].description;
 
@@ -163,41 +171,60 @@ var getWeather = async function (city) {
                 <p class="label">Humidity: <span class="forecast-humidity">${dayHumidity}</span></p>
             </div>
         `;
-    console.log(
-      i,
-      daytime,
-      dayTemp,
-      dayWind,
-      dayHumidity,
-      dayIconLocation,
-      dayIconDescription
-    );
+    // console.log(
+    //   i,
+    //   daytime,
+    //   dayTemp,
+    //   dayWind,
+    //   dayHumidity,
+    //   dayIconLocation,
+    //   dayIconDescription
+    // );
   }
   fiveDayForecastEl.classList.remove("d-none");
+  toggleForecastSection(searchedComplete);
+  return searchedComplete;
 };
 
 var loadPage = function () {
-  resetElements();
-  toggleForecastSection(getWeather(initialCity));
+    var setToggle = false;
   loadHistory(savedHistoryKey);
+  setToggle = getWeather(initialCity);
+
+  if(!setToggle){
+        alert("Please Input a valid City!");
+        return
+   };
+
+   toggleForecastSection(setToggle);
+  
 };
 
 loadPage();
 
+var searchButtonClicked = async function(city){
+    var setToggle = false;
+    resetElements();
+
+    setToggle =  await getWeather(city);
+    console.log ("setToggle", setToggle)
+    if (setToggle===true) {
+        console.log("True Toggle: ", setToggle)
+      historyArray.push(city);
+      setLocalStorage(savedHistoryKey, historyArray);
+      loadHistory(savedHistoryKey);
+      toggleForecastSection(setToggle);
+    }
+}
+
 btnSearch.addEventListener("click", function () {
-  var setToggle = false;
-  resetElements();
-  var city = inputSearchEl.value.trim();
-  if (!city) {
-    alert("Please Input a valid City!");
-    inputSearchEl.focus();
-    return;
-  }
-  setToggle = getWeather(city);
-  if (setToggle) {
-    historyArray.push(city);
-    setLocalStorage(savedHistoryKey, historyArray);
-    loadHistory(savedHistoryKey);
-    toggleForecastSection(setToggle);
-  }
+    var city = inputSearchEl.value.trim();
+    if (!city) {
+      alert("Please Input a valid City!");
+      inputSearchEl.value="";
+      inputSearchEl.focus();
+      return;
+    }
+    searchButtonClicked(city)
+    inputSearchEl.value="";
 });
