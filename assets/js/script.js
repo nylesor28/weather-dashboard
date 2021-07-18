@@ -42,7 +42,6 @@ var resetElements = function () {
 };
 
 var toggleForecastSection = function (toggle) {
-  console.log(toggle);
   if (toggle) {
     forcastSectionEl.classList.remove("d-none");
   } else {
@@ -63,7 +62,6 @@ var fetchAllForecast = function (lat, lon) {
   var exclusion = "minutely,hourly,alerts";
   var units = "imperial";
   var apiURL = `${openWeatherAPIURL}lat=${lat}&lon=${lon}&exclude=${exclusion}&appid=${apikey}&units=${units}`;
-  console.log(apiURL);
 
   return fetch(apiURL).then(function (response) {
     return response.json();
@@ -88,7 +86,6 @@ var loadHistory = function (key) {
 
 var fetchCityForecast =  function (city) {
   var weatherAPIURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=imperial`;
-  console.log(weatherAPIURL);
 
   return fetch(weatherAPIURL).then(function (response) {
     return response.json();
@@ -101,7 +98,6 @@ var getWeather = async function (city) {
 
   //get forecast for for searched city
   var currentData = await (fetchCityForecast(city));
-  console.log("currentData: ", currentData);
     if(currentData.cod != "200"){
          alert(currentData.message);
          toggleForecastSection(searchedComplete);
@@ -117,7 +113,6 @@ var getWeather = async function (city) {
   humidityEl.textContent = currentData.main.humidity + "%";
 
   var iconImgUrl = `${iconURL}${currentData.weather[0].icon}.png`;
-  console.log("imageIcon", iconImgUrl);
 
   weatherIconEl.textContent = "";
   var img = document.createElement("img");
@@ -129,7 +124,6 @@ var getWeather = async function (city) {
     currentData.coord.lat,
     currentData.coord.lon
   );
-  console.log(allForecastData, allForecastData.lat);
 
   var uvi = 
       (await fetchAllForecast(currentData.coord.lat, currentData.coord.lon))
@@ -171,15 +165,6 @@ var getWeather = async function (city) {
                 <p class="label">Humidity: <span class="forecast-humidity">${dayHumidity}</span></p>
             </div>
         `;
-    // console.log(
-    //   i,
-    //   daytime,
-    //   dayTemp,
-    //   dayWind,
-    //   dayHumidity,
-    //   dayIconLocation,
-    //   dayIconDescription
-    // );
   }
   fiveDayForecastEl.classList.remove("d-none");
   toggleForecastSection(searchedComplete);
@@ -207,9 +192,7 @@ var searchButtonClicked = async function(city){
     resetElements();
 
     setToggle =  await getWeather(city);
-    console.log ("setToggle", setToggle)
     if (setToggle===true) {
-        console.log("True Toggle: ", setToggle)
       historyArray.push(city);
       setLocalStorage(savedHistoryKey, historyArray);
       loadHistory(savedHistoryKey);
