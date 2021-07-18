@@ -1,0 +1,78 @@
+header {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 212, 255, 1) 0%,
+    rgba(9, 9, 121, 1) 75%,
+    rgba(2, 0, 36, 1) 100%
+  );
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+.btn-search,
+.btn-history {
+  width: 100%;
+  margin-top: 5%;
+}
+
+.search-history-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+hr {
+  text-align: left;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.label span {
+  font-weight: normal;
+}
+
+.search-history-container button {
+  flex-wrap: wrap;
+}
+
+.today-forecast {
+  border: 1px solid black;
+  padding: 0px;
+}
+.five-day-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.five-day {
+  background-color: rgb(2, 0, 36, 0.8);
+  color: white;
+  margin-bottom: 5%;
+}
+
+#uv-index {
+  padding: 0.5% 2%;
+  border-radius: 15%;
+}
+
+.low {
+  background-color: lightgreen;
+}
+
+.moderate {
+  background-color: yellow;
+}
+
+.high {
+  background-color: orange;
+}
+
+.severe {
+  background-color: red;
+}
+
+.extreme {
+  background-color: orchid;
+}
