@@ -5,45 +5,42 @@ header{
     text-align: center;
 }
 
-.container{
 
 
-}
-/* .search-section{
-
-}
-
-.city-input{
+ .btn-search, .btn-history{
+    /* background-color:rgb(0,212,255) ;
+    color:white; */
+    width:100%; 
+    margin-top:5%;
+  
     
-} */
 
-/* .btn-search{
-    background-color:rgb(0,212,255) ;
-    color:white;
-
-
-} */
+} 
 
 .search-history-container{
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
  
 }
 hr{
-
     text-align: left;
-
- 
 }
-/* 
+
+.label{
+    font-weight: bold; 
+}
+
+.label span{
+    font-weight:normal
+}
+
 .search-history-container button{
-    background-color: grey;
+    flex-wrap: wrap;
 
-} */
+}
 
-/* .forecast-section{
-   
-} */
+
 .today-forecast{
     border: 1px solid black;
     padding: 0px;
@@ -56,11 +53,9 @@ hr{
 .five-day{
     background-color: rgb(2,0,36,0.80);
     color: white;
+    margin-bottom:5%
   
 
 
 }
 
-.forecast-date{
-    /* font-weight: bold; */
-}

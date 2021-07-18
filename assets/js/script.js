@@ -1,6 +1,7 @@
 var inputSearchEl = document.querySelector("#city-input")
 var btnSearch = document.querySelector(".btn-search")
 var searchHistoryContainerEl = document.querySelector(".search-history-container")
+var forcastSectionEl= document.querySelector(".forecast-section")
 
 var searchCityEl = document.querySelector(".searched-city")
 var todayDateEl = document.querySelector(".today-date")
@@ -18,9 +19,35 @@ var openWeatherAPIURL = "https://api.openweathermap.org/data/2.5/onecall?"
 var apikey="deb384ba8b93ecfc669990c7064f55ad"
 
 var historyArray=[]
+const savedHistoryKey= "savedCities"
+const initialCity = "Hartford";
 
 var formatDate = function(date){
     return date.toLocaleDateString('en-US')
+}
+
+
+var resetElements= function(){
+        searchCityEl.textContent=""
+        todayDateEl.textContent=""
+        tempEl.textContent=""
+        windEl.textContent=""
+        humidityEl.textContent=""
+        fiveDayContainerEl.textContent =""
+
+        toggleForecastSection(false);
+}
+
+
+var toggleForecastSection = function(toggle){
+    console.log(toggle)
+    if(toggle){
+        forcastSectionEl.classList.remove("d-none")
+    }
+    else{
+        forcastSectionEl.classList.add("d-none")
+        fiveDayForecastEl.classList.add("d-none")
+    }
 }
 
 var setLocalStorage = function (key,value) {
@@ -31,7 +58,7 @@ var getLocalStorage= function (key) {
     return (JSON.parse(localStorage.getItem(key)));
 };
 
-var getAllForecast= function(lat,lon){
+var fetchAllForecast= function(lat,lon){
     var exclusion = "minutely,hourly,alerts"
     var units = "imperial"
     var apiURL = `${openWeatherAPIURL}lat=${lat}&lon=${lon}&exclude=${exclusion}&appid=${apikey}&units=${units}`
@@ -43,8 +70,23 @@ var getAllForecast= function(lat,lon){
  
 }
 
+var loadHistory = function(key){
+    searchHistoryContainerEl.textContent=""
+    historyArray = getLocalStorage(key)|| []
+    for(var i=0; i<historyArray.length; i++){
+        var city = historyArray[i].trim();
+        var btn = document.createElement("button")
+        btn.setAttribute("class", "btn btn-secondary btn-history")
+        btn.textContent = city
+        searchHistoryContainerEl.appendChild(btn)
+        btn.addEventListener("click", function(){
+            getWeather(this.textContent)
+        })
+    }
+}
 
-var getCityForecast= function(city){
+
+var fetchCityForecast= function(city){
     var weatherAPIURL =`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=imperial`;
     console.log(weatherAPIURL)
 
@@ -53,10 +95,11 @@ var getCityForecast= function(city){
     })
 }
 var getWeather = async function(city){
+    var searchedComplete = false;
     const iconURL = " http://openweathermap.org/img/w/"
 
     //get forecast for for searched city
-    var currentData =await getCityForecast(city);
+    var currentData =await fetchCityForecast(city);
     console.log("currentData: ", currentData)
 
     //display current weather information
@@ -75,10 +118,10 @@ var getWeather = async function(city){
     img.setAttribute("src", iconImgUrl)
     img.setAttribute("alt", currentData.weather[0].description)
     weatherIconEl.appendChild(img)
-
-    var allForecastData=await getAllForecast(currentData.coord.lat,currentData.coord.lon)
+    searchedComplete = true;
+    var allForecastData=await fetchAllForecast(currentData.coord.lat,currentData.coord.lon)
     console.log(allForecastData, allForecastData.lat)
-    uvIndexEl.textContent =(await getAllForecast(currentData.coord.lat,currentData.coord.lon)).current.uvi;
+    uvIndexEl.textContent =(await fetchAllForecast(currentData.coord.lat,currentData.coord.lon)).current.uvi;
 
     fiveDayContainerEl.textContent =""
     for(var i=1; i<6; i++){
@@ -90,34 +133,50 @@ var getWeather = async function(city){
         var dayIconLocation = `${iconURL}${dailyInfo.weather[0].icon}.png`;
         var dayIconDescription = dailyInfo.weather[0].description;
 
-        // var fiveDay = 
         fiveDayContainerEl.innerHTML+=
         `
             <div class="five-day col-md-2">
-                <p class="forecast-date">${daytime}</p>
+                <p class="forecast-date label">${daytime}</p>
                 <p class="forecast-icon"><img src="${dayIconLocation}" alt="${dayIconDescription}"></p>
-                <p>Temp: <span class="forecast-temp">${dayTemp}</span></p>
-                <p>Wind: <span class="forecast-wind">${dayWind}</span></p>
-                <p>Humidity: <span class="forecast-humidity">${dayHumidity}</span></p>
+                <p class="label">Temp: <span class="forecast-temp">${dayTemp}</span></p>
+                <p class="label">Wind: <span class="forecast-wind">${dayWind}</span></p>
+                <p class="label">Humidity: <span class="forecast-humidity">${dayHumidity}</span></p>
             </div>
         `
-        // fiveDayContainerEl.append(fiveDay)
         console.log(i, daytime, dayTemp, dayWind, dayHumidity, dayIconLocation, dayIconDescription)
     }
-
-
+   fiveDayForecastEl.classList.remove("d-none")
 
 }
 
-btnSearch.addEventListener("click", function(){
 
+var  loadPage = function(){
+    resetElements()
+    toggleForecastSection(getWeather(initialCity))
+    loadHistory(savedHistoryKey)
+
+}
+
+loadPage();
+
+btnSearch.addEventListener("click", function(){
+    var setToggle = false
+    resetElements()
     var city = inputSearchEl.value.trim();
     if(!city){
         alert("Please Input a valid City!")
         inputSearchEl.focus();
         return;
     }
-    getWeather(city);
+   setToggle = getWeather(city);
+    if(setToggle){
+        historyArray.push(city)
+        setLocalStorage(savedHistoryKey, historyArray);
+        loadHistory(savedHistoryKey)
+        toggleForecastSection(setToggle)
+    }
+
+    
 
 })
 
