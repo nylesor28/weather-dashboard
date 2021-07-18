@@ -59,3 +59,27 @@ hr{
 
 }
 
+.uv-index{
+    padding: 1%;
+    border-radius: 15%;
+}
+
+.low{
+    background-color: lightgreen;
+}
+
+.moderate{
+    background-color: yellow;
+}
+
+.high{
+    background-color: orange;
+}
+
+.severe{
+    background-color: red;
+}
+
+.extreme{
+    background-color: orchid;
+}

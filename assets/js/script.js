@@ -121,7 +121,21 @@ var getWeather = async function(city){
     searchedComplete = true;
     var allForecastData=await fetchAllForecast(currentData.coord.lat,currentData.coord.lon)
     console.log(allForecastData, allForecastData.lat)
-    uvIndexEl.textContent =(await fetchAllForecast(currentData.coord.lat,currentData.coord.lon)).current.uvi;
+    
+     var uvi=Math.floor(parseFloat((await fetchAllForecast(currentData.coord.lat,currentData.coord.lon)).current.uvi));
+     uvIndexEl.textContent = uvi;
+
+     if(uvi>= 0 && uvi <=2){
+        uvIndexEl.classList.add("low")
+     } else if(uvi>= 3 && uvi <=5){
+        uvIndexEl.classList.add("moderate")
+     } else if(uvi>= 6 && uvi <=7){
+        uvIndexEl.classList.add("high")
+     } else if(uvi>= 8 && uvi <=10){
+        uvIndexEl.classList.add("severe")
+     } else if(uvi>= 11){
+        uvIndexEl.classList.add("extreme")
+     }
 
     fiveDayContainerEl.textContent =""
     for(var i=1; i<6; i++){
